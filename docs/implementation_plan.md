@@ -30,8 +30,9 @@
 
 ## Progress
 - [x] Initial Planning
-- [ ] Requirements definition
-- [ ] Git Setup
-- [ ] EDA & Modeling
-- [ ] Evaluation Framework
-- [ ] Operations Blueprint
+- [x] Requirements definition
+- [x] Git Setup
+- [x] EDA & Modeling -> **Findings:** `desc_word_count` (0.55) and `title_length` (0.36) strongly correlate with higher CVR. We must lengthen and flesh out titles and descriptions.
+- [x] Optimization Engine -> Built using Groq (llama-3.3-70b-versatile). Generates structured JSON optimizing specifically for conversion rules.
+- [x] Evaluation Framework -> Built an LLM-as-a-judge + heuristic metrics to score original vs new content.
+- [x] Operations Blueprint -> Created `operations_blueprint.md` detailing architecture, QA flow, and KPIs.

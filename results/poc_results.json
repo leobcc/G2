@@ -1,0 +1,282 @@
+[
+    {
+        "original":{
+            "deal_id":"d04a54f4-c8aa-4083-bba5-9b67df39c6e8",
+            "category":"Home Services",
+            "subcategory":"HVAC",
+            "geo":"Seattle",
+            "title":"Termite Inspection & Treatment Plan at GreenLeaf Services",
+            "description":"What We Offer: Our licensed, bonded, and insured professionals arrive at your home with all necessary supplies and equipment \u2014 you don't need to provide anything. The service includes a thorough walkthrough before we begin, the service itself, and a final inspection with you to ensure everything meets your standards. We clean up after ourselves. Why You Should Grab This Offer: We've served over 2,000 homes in Seattle and maintain a 4.7-star rating. Every technician is background-checked, drug-tested, and has an average of 8 years of experience. We offer a 100% satisfaction guarantee \u2014 if you're not happy, we come back and fix it at no charge. Our customers particularly appreciate our on-time arrival and transparent pricing with no hidden fees. Good to Know: Serving Seattle and surrounding areas within 30 miles. Online booking with 2-hour arrival windows. Service takes approximately 1-3 hours depending on home size and scope.",
+            "fine_print":"Not valid on holidays; Promotional value expires 120 days after purchase; Excludes alcohol",
+            "num_options":4,
+            "option_names":"Single Room, Multi-Room Package, Complete Home Overhaul",
+            "price":105,
+            "value":184,
+            "discount_pct":0.4293,
+            "merchant_name":"GreenLeaf Services",
+            "image_quality_score":3,
+            "days_live":19,
+            "weekly_udvs_w1":1479,
+            "weekly_orders_w1":135,
+            "weekly_udvs_w2":1185,
+            "weekly_orders_w2":88,
+            "weekly_udvs_w3":1507,
+            "weekly_orders_w3":153,
+            "weekly_udvs_w4":2223,
+            "weekly_orders_w4":171,
+            "weekly_udvs_w5":1598,
+            "weekly_orders_w5":112,
+            "weekly_udvs_w6":1561,
+            "weekly_orders_w6":99,
+            "weekly_udvs_w7":1758,
+            "weekly_orders_w7":134,
+            "weekly_udvs_w8":1793,
+            "weekly_orders_w8":148,
+            "cvr":0.079365,
+            "aov":88.62,
+            "refund_rate":0.0793
+        },
+        "new_content":{
+            "improved_title":"Comprehensive Termite Inspection and Treatment Plan by GreenLeaf Services - Licensed, Bonded, and Insured Professionals for a Pest-Free Home in Seattle and Surrounding Areas",
+            "improved_description":"Experience the ultimate in termite protection with our meticulous inspection and treatment plan, designed to give you complete peace of mind. Our team of highly trained, background-checked, and drug-tested professionals will arrive at your home equipped with state-of-the-art supplies and equipment to ensure a thorough and effective service. The process begins with a detailed walkthrough to identify any potential termite activity, followed by a customized treatment plan tailored to your home's specific needs. After the service, we conduct a final inspection with you to guarantee everything meets your high standards. At GreenLeaf Services, we pride ourselves on our commitment to excellence, having served over 2,000 homes in Seattle with a stellar 4.7-star rating. Our customers rave about our punctual arrival, transparent pricing with no hidden fees, and our dedication to ensuring your satisfaction. With an average of 8 years of experience per technician and a 100% satisfaction guarantee, you can trust that your home is in good hands. We understand the importance of flexibility, which is why we offer online booking with convenient 2-hour arrival windows. The service typically takes between 1-3 hours, depending on the size of your home and the scope of the treatment. By choosing GreenLeaf Services, you're not only protecting your home from termites but also supporting a local business that truly cares about its community.",
+            "improved_fine_print":"Not valid on holidays; Promotional value expires 120 days after purchase; Excludes alcohol"
+        },
+        "eval_metrics":{
+            "eval_result":{
+                "winner":"new",
+                "reason":"The new content has longer, more descriptive titles and descriptions, which are likely to increase conversion rates.",
+                "score":85.0
+            },
+            "heuristic_metrics":{
+                "title_length_increased":true,
+                "desc_word_count_increased":true,
+                "title_length_delta":116,
+                "desc_length_delta":71
+            }
+        }
+    },
+    {
+        "original":{
+            "deal_id":"d94bb39f-843c-4ac6-9a93-7dbabd1314ed",
+            "category":"Health & Fitness",
+            "subcategory":"Chiropractic",
+            "geo":"Chicago",
+            "title":"Phentermine Weight-Loss Program w\/ Consultation at Peak Med Center",
+            "description":"What We Offer: This package includes an initial assessment with a certified professional who will review your health history, discuss your goals, and create a personalized treatment or training plan. All sessions are one-on-one in a modern, fully equipped facility. Equipment is sanitized between each client. Why You Should Grab This Offer: Our practitioners hold nationally recognized certifications and undergo continuing education annually. We take a data-driven approach \u2014 your progress is tracked session to session, with adjustments made based on measurable outcomes, not guesswork. Over 85% of our clients report noticeable improvement within the first month. Good to Know: Flexible scheduling with morning, afternoon, and evening slots available. Located in Chicago with free on-site parking. Insurance not accepted \u2014 all pricing is transparent and upfront with no hidden fees.",
+            "fine_print":"48-hour cancellation policy; Photo ID required; Valid at Chicago location only; Must present voucher on arrival; Valid for dine-in only; Subject to availability; Limit 1 per household",
+            "num_options":3,
+            "option_names":"Option 1, Option 2, Option 3",
+            "price":56,
+            "value":142,
+            "discount_pct":0.6056,
+            "merchant_name":"Peak Med Center",
+            "image_quality_score":1,
+            "days_live":103,
+            "weekly_udvs_w1":1501,
+            "weekly_orders_w1":82,
+            "weekly_udvs_w2":1282,
+            "weekly_orders_w2":53,
+            "weekly_udvs_w3":1232,
+            "weekly_orders_w3":63,
+            "weekly_udvs_w4":1315,
+            "weekly_orders_w4":64,
+            "weekly_udvs_w5":1787,
+            "weekly_orders_w5":83,
+            "weekly_udvs_w6":1581,
+            "weekly_orders_w6":80,
+            "weekly_udvs_w7":678,
+            "weekly_orders_w7":30,
+            "weekly_udvs_w8":1224,
+            "weekly_orders_w8":48,
+            "cvr":0.047453,
+            "aov":54.59,
+            "refund_rate":0.0784
+        },
+        "new_content":{
+            "improved_title":"Comprehensive Phentermine Weight-Loss Program with Personalized Consultation and Ongoing Support at Peak Med Center in Chicago",
+            "improved_description":"Unlock a Healthier You with Our Expert-Led Weight-Loss Program: This premium package includes a thorough initial assessment with a certified professional who will meticulously review your health history, discuss your unique goals and challenges, and create a tailored treatment or training plan designed specifically for your needs. All sessions are conducted one-on-one in our modern, fully equipped facility, ensuring you receive the personalized attention and care you deserve. To ensure your safety and comfort, our equipment is rigorously sanitized between each client. Our team of practitioners holds nationally recognized certifications and undergoes continuing education annually, staying at the forefront of the latest advancements in weight-loss science. We take a data-driven approach, carefully tracking your progress session to session and making adjustments based on measurable outcomes, not guesswork. This approach has yielded remarkable results, with over 85% of our clients reporting noticeable improvement within the first month. At Peak Med Center, we prioritize flexibility and convenience, offering morning, afternoon, and evening scheduling slots to accommodate even the busiest of lifestyles. Located in the heart of Chicago, our facility features free on-site parking for your convenience. We believe in transparency, which is why all our pricing is upfront and clear, with no hidden fees or surprises. By choosing our program, you're taking the first step towards a healthier, happier you.",
+            "improved_fine_print":"48-hour cancellation policy; Photo ID required; Valid at Chicago location only; Must present voucher on arrival; Subject to availability; Limit 1 per household"
+        },
+        "eval_metrics":{
+            "eval_result":{
+                "winner":"new",
+                "reason":"The new content has longer, more descriptive titles and descriptions, which are likely to increase conversion rates.",
+                "score":92.5
+            },
+            "heuristic_metrics":{
+                "title_length_increased":true,
+                "desc_word_count_increased":true,
+                "title_length_delta":60,
+                "desc_length_delta":88
+            }
+        }
+    },
+    {
+        "original":{
+            "deal_id":"e2c08629-c85e-4e6e-8bce-1c9b47008c5b",
+            "category":"Health & Fitness",
+            "subcategory":"Weight Loss",
+            "geo":"Chicago",
+            "title":"Restore & Recharge at Vitality Dental",
+            "description":"An opportunity to enjoy premium service at a fraction of the regular cost. Our customers love the convenience and value of this deal. Valid for the options listed. See fine print for scheduling and restrictions.",
+            "fine_print":"Must redeem within 30 days; Expires 90 days from purchase; Gratuity not included; Limit 1 per household; Valid at Chicago location only; New customers only; Valid Mon-Fri only",
+            "num_options":4,
+            "option_names":"1 Visit, 3 Visits, 5 Visits, 10 Visits",
+            "price":35,
+            "value":54,
+            "discount_pct":0.3519,
+            "merchant_name":"Vitality Dental",
+            "image_quality_score":4,
+            "days_live":44,
+            "weekly_udvs_w1":1050,
+            "weekly_orders_w1":41,
+            "weekly_udvs_w2":1078,
+            "weekly_orders_w2":50,
+            "weekly_udvs_w3":1166,
+            "weekly_orders_w3":42,
+            "weekly_udvs_w4":737,
+            "weekly_orders_w4":29,
+            "weekly_udvs_w5":1010,
+            "weekly_orders_w5":37,
+            "weekly_udvs_w6":1248,
+            "weekly_orders_w6":45,
+            "weekly_udvs_w7":949,
+            "weekly_orders_w7":29,
+            "weekly_udvs_w8":814,
+            "weekly_orders_w8":27,
+            "cvr":0.037258,
+            "aov":47.54,
+            "refund_rate":0.1044
+        },
+        "new_content":{
+            "improved_title":"Unlock a Radiant Smile: Restore and Recharge with Vitality Dental's Premium Services at an Unbeatable Price - Limited Time Offer for New Customers at Our Chicago Location",
+            "improved_description":"Indulge in the ultimate dental experience without breaking the bank. This incredible deal offers you the chance to enjoy top-notch service at a fraction of the regular cost, providing you with unparalleled convenience and value. Our satisfied customers rave about the exceptional care and attention to detail they receive from our skilled professionals. With this offer, you'll have the opportunity to choose from our range of premium services, each designed to leave you feeling refreshed, revitalized, and confident in your smile. Whether you're looking to address a specific dental concern or simply seeking a routine check-up, our dedicated team is here to provide you with a personalized and comfortable experience. Don't miss out on this amazing chance to prioritize your oral health and well-being at an unbeatable price. Valid for the options listed, be sure to review the fine print for important details on scheduling and restrictions.",
+            "improved_fine_print":"Must redeem within 30 days; Expires 90 days from purchase; Gratuity not included; Limit 1 per household; Valid at Chicago location only; New customers only; Valid Mon-Fri only"
+        },
+        "eval_metrics":{
+            "eval_result":{
+                "winner":"new",
+                "reason":"The new content has longer, more descriptive titles and descriptions that highlight the benefits and value of the service, making it more likely to convert.",
+                "score":92.5
+            },
+            "heuristic_metrics":{
+                "title_length_increased":true,
+                "desc_word_count_increased":true,
+                "title_length_delta":133,
+                "desc_length_delta":112
+            }
+        }
+    },
+    {
+        "original":{
+            "deal_id":"7c765ecb-e12b-4d43-ad86-f249a9ca99ba",
+            "category":"Beauty & Spas",
+            "subcategory":"Hair",
+            "geo":"Los Angeles",
+            "title":"Revitalize Your Look w\/ Amazing Services at Sapphire Beauty Bar",
+            "description":"Experience the best that Los Angeles has to offer with this popular deal. Thousands of Groupon customers have enjoyed this offer. Book now to secure your spot before availability runs out. See fine print for redemption details.",
+            "fine_print":"No refunds after redemption; Valid at Los Angeles location only; Not valid Dec 24-Jan 2; No cash value; Merchant is solely responsible for care; Excludes alcohol; Valid for dine-in only",
+            "num_options":4,
+            "option_names":"Mini Refresh, Classic Treatment, Luxury Package, Ultimate Transformation",
+            "price":48,
+            "value":127,
+            "discount_pct":0.622,
+            "merchant_name":"Sapphire Beauty Bar",
+            "image_quality_score":4,
+            "days_live":67,
+            "weekly_udvs_w1":2961,
+            "weekly_orders_w1":75,
+            "weekly_udvs_w2":3006,
+            "weekly_orders_w2":69,
+            "weekly_udvs_w3":3025,
+            "weekly_orders_w3":68,
+            "weekly_udvs_w4":2934,
+            "weekly_orders_w4":66,
+            "weekly_udvs_w5":2596,
+            "weekly_orders_w5":57,
+            "weekly_udvs_w6":2984,
+            "weekly_orders_w6":66,
+            "weekly_udvs_w7":2174,
+            "weekly_orders_w7":66,
+            "weekly_udvs_w8":2985,
+            "weekly_orders_w8":64,
+            "cvr":0.023428,
+            "aov":65.54,
+            "refund_rate":0.0943
+        },
+        "new_content":{
+            "improved_title":"Revitalize Your Look with Amazing Services at Sapphire Beauty Bar: Unwind and Rejuvenate with Our Expert Therapists in the Heart of Los Angeles, Perfect for Relaxation and Pampering",
+            "improved_description":"Indulge in the ultimate beauty experience at Sapphire Beauty Bar, a renowned oasis in the heart of Los Angeles. With thousands of satisfied Groupon customers, our services have been perfected to provide you with an unparalleled level of relaxation and rejuvenation. From the moment you step into our serene environment, you'll be treated to a world of tranquility and expertise. Our skilled therapists are dedicated to ensuring that every moment of your visit is nothing short of exceptional. Whether you're looking to escape the hustle and bustle of city life or simply want to treat yourself to some well-deserved pampering, we invite you to book now and secure your spot before availability runs out. Please note that it's essential to review the fine print for important details regarding your visit.",
+            "improved_fine_print":"No refunds after redemption; Valid at Los Angeles location only; Not valid Dec 24-Jan 2; No cash value; Merchant is solely responsible for care; Excludes alcohol; Valid for dine-in only"
+        },
+        "eval_metrics":{
+            "eval_result":{
+                "winner":"new",
+                "reason":"The new content has longer, more descriptive titles and descriptions that provide a clearer picture of the services offered, increasing the likelihood of conversion.",
+                "score":92.5
+            },
+            "heuristic_metrics":{
+                "title_length_increased":true,
+                "desc_word_count_increased":true,
+                "title_length_delta":118,
+                "desc_length_delta":93
+            }
+        }
+    },
+    {
+        "original":{
+            "deal_id":"872bbb9d-a910-415a-b804-cf2316c0496c",
+            "category":"Automotive",
+            "subcategory":"Inspection",
+            "geo":"Los Angeles",
+            "title":"Amazing Auto Service at MasterMech Tire & Auto",
+            "description":"Save on this top-rated experience in Los Angeles. Whether you're a local or just visiting, this deal offers real value. Simple redemption \u2014 just show your voucher. See fine print for full details.",
+            "fine_print":"Subject to availability; Merchant is solely responsible for care; Valid for dine-in only; Not valid Dec 24-Jan 2; Valid at Los Angeles location only",
+            "num_options":1,
+            "option_names":"1 Session",
+            "price":61,
+            "value":156,
+            "discount_pct":0.609,
+            "merchant_name":"MasterMech Tire & Auto",
+            "image_quality_score":2,
+            "days_live":68,
+            "weekly_udvs_w1":922,
+            "weekly_orders_w1":13,
+            "weekly_udvs_w2":1045,
+            "weekly_orders_w2":14,
+            "weekly_udvs_w3":914,
+            "weekly_orders_w3":9,
+            "weekly_udvs_w4":924,
+            "weekly_orders_w4":11,
+            "weekly_udvs_w5":834,
+            "weekly_orders_w5":11,
+            "weekly_udvs_w6":946,
+            "weekly_orders_w6":13,
+            "weekly_udvs_w7":1126,
+            "weekly_orders_w7":17,
+            "weekly_udvs_w8":1185,
+            "weekly_orders_w8":14,
+            "cvr":0.012918,
+            "aov":74.76,
+            "refund_rate":0.0542
+        },
+        "new_content":{
+            "improved_title":"Unbeatable Auto Service Package at MasterMech Tire & Auto: Comprehensive Car Care and Maintenance Solutions for a Safe and Smooth Ride in Los Angeles",
+            "improved_description":"Get ready to experience the ultimate in auto care with this exceptional deal from MasterMech Tire & Auto, one of the top-rated service providers in Los Angeles. Whether you're a long-time resident or just visiting the city, this offer is designed to provide you with real value and peace of mind. With a simple and hassle-free redemption process - just show your voucher and let the experts take care of the rest - you can trust that your vehicle is in good hands. From routine maintenance to more complex repairs, MasterMech Tire & Auto's team of skilled technicians is committed to delivering outstanding service and ensuring your safety on the road. Take advantage of this fantastic opportunity to save on a top-quality auto service experience and enjoy the confidence that comes with knowing your car is well-maintained. For full details and any applicable terms, please see the fine print below.",
+            "improved_fine_print":"Subject to availability; Merchant is solely responsible for care; Valid for service at Los Angeles location only; Not valid Dec 24-Jan 2"
+        },
+        "eval_metrics":{
+            "eval_result":{
+                "winner":"new",
+                "reason":"The new content has longer, more descriptive titles and descriptions, which are likely to increase conversion rates.",
+                "score":92.5
+            },
+            "heuristic_metrics":{
+                "title_length_increased":true,
+                "desc_word_count_increased":true,
+                "title_length_delta":103,
+                "desc_length_delta":117
+            }
+        }
+    }
+]
