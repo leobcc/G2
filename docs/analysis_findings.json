@@ -1,0 +1,446 @@
+{
+  "n_deals": 500,
+  "top_positive_correlations": {
+    "structure_section_count": {
+      "r": 0.563,
+      "p": 0.0
+    },
+    "desc_length": {
+      "r": 0.5534,
+      "p": 0.0
+    },
+    "desc_word_count": {
+      "r": 0.5482,
+      "p": 0.0
+    },
+    "specificity_count": {
+      "r": 0.4999,
+      "p": 0.0
+    },
+    "desc_fk_grade": {
+      "r": 0.4633,
+      "p": 0.0
+    },
+    "image_quality_score": {
+      "r": 0.4584,
+      "p": 0.0
+    },
+    "title_length": {
+      "r": 0.3562,
+      "p": 0.0
+    },
+    "title_word_count": {
+      "r": 0.3163,
+      "p": 0.0
+    },
+    "social_proof_count": {
+      "r": 0.2763,
+      "p": 0.0
+    },
+    "desc_to_fine_print_ratio": {
+      "r": 0.2346,
+      "p": 0.0
+    },
+    "fine_print_restriction_count": {
+      "r": 0.151,
+      "p": 0.0007
+    },
+    "fine_print_friction": {
+      "r": 0.151,
+      "p": 0.0007
+    }
+  },
+  "top_negative_correlations": {
+    "desc_flesch_ease": {
+      "r": -0.3876,
+      "p": 0.0
+    },
+    "title_polarity": {
+      "r": -0.3571,
+      "p": 0.0
+    },
+    "desc_polarity": {
+      "r": -0.2307,
+      "p": 0.0
+    },
+    "log_price": {
+      "r": -0.142,
+      "p": 0.0015
+    },
+    "desc_subjectivity": {
+      "r": -0.1152,
+      "p": 0.01
+    }
+  },
+  "rf_importance_top10": {
+    "image_quality_score": 0.2587,
+    "log_price": 0.1308,
+    "specificity_count": 0.1102,
+    "desc_length": 0.1007,
+    "desc_word_count": 0.0741,
+    "price_to_value_ratio": 0.0625,
+    "structure_section_count": 0.0541,
+    "discount_pct": 0.0446,
+    "desc_to_fine_print_ratio": 0.0327,
+    "title_flesch_ease": 0.0227
+  },
+  "rf_cv_r2": 0.6652,
+  "category_cvr": {
+    "mean": {
+      "Automotive": 0.03666,
+      "Beauty & Spas": 0.03597,
+      "Food & Drink": 0.03665,
+      "Health & Fitness": 0.03783,
+      "Home Services": 0.03283,
+      "Retail": 0.03681,
+      "Things to Do": 0.03641,
+      "Travel": 0.03133
+    },
+    "median": {
+      "Automotive": 0.03092,
+      "Beauty & Spas": 0.03159,
+      "Food & Drink": 0.03393,
+      "Health & Fitness": 0.02867,
+      "Home Services": 0.02353,
+      "Retail": 0.03712,
+      "Things to Do": 0.03141,
+      "Travel": 0.02702
+    },
+    "std": {
+      "Automotive": 0.02251,
+      "Beauty & Spas": 0.02221,
+      "Food & Drink": 0.02069,
+      "Health & Fitness": 0.02373,
+      "Home Services": 0.02283,
+      "Retail": 0.02124,
+      "Things to Do": 0.02256,
+      "Travel": 0.02022
+    },
+    "count": {
+      "Automotive": 55,
+      "Beauty & Spas": 75,
+      "Food & Drink": 70,
+      "Health & Fitness": 55,
+      "Home Services": 60,
+      "Retail": 55,
+      "Things to Do": 80,
+      "Travel": 50
+    }
+  },
+  "top_vs_bottom": {
+    "num_options": {
+      "top_mean": 2.28,
+      "bottom_mean": 2.34,
+      "delta": -0.06
+    },
+    "price": {
+      "top_mean": 70.06,
+      "bottom_mean": 189.32,
+      "delta": -119.26
+    },
+    "value": {
+      "top_mean": 120.68,
+      "bottom_mean": 302.38,
+      "delta": -181.7
+    },
+    "discount_pct": {
+      "top_mean": 0.418,
+      "bottom_mean": 0.35,
+      "delta": 0.068
+    },
+    "image_quality_score": {
+      "top_mean": 4.02,
+      "bottom_mean": 2.34,
+      "delta": 1.68
+    },
+    "days_live": {
+      "top_mean": 63.22,
+      "bottom_mean": 67.2,
+      "delta": -3.98
+    },
+    "weekly_udvs_w1": {
+      "top_mean": 1774.62,
+      "bottom_mean": 1869.44,
+      "delta": -94.82
+    },
+    "weekly_orders_w1": {
+      "top_mean": 140.64,
+      "bottom_mean": 16.16,
+      "delta": 124.48
+    },
+    "weekly_udvs_w2": {
+      "top_mean": 1821.74,
+      "bottom_mean": 1868.52,
+      "delta": -46.78
+    },
+    "weekly_orders_w2": {
+      "top_mean": 143.72,
+      "bottom_mean": 15.5,
+      "delta": 128.22
+    },
+    "weekly_udvs_w3": {
+      "top_mean": 1871.82,
+      "bottom_mean": 1737.84,
+      "delta": 133.98
+    },
+    "weekly_orders_w3": {
+      "top_mean": 151.58,
+      "bottom_mean": 14.3,
+      "delta": 137.28
+    },
+    "weekly_udvs_w4": {
+      "top_mean": 1776.3,
+      "bottom_mean": 1882.98,
+      "delta": -106.68
+    },
+    "weekly_orders_w4": {
+      "top_mean": 141.7,
+      "bottom_mean": 15.1,
+      "delta": 126.6
+    },
+    "weekly_udvs_w5": {
+      "top_mean": 1898.54,
+      "bottom_mean": 1827.54,
+      "delta": 71.0
+    },
+    "weekly_orders_w5": {
+      "top_mean": 153.6,
+      "bottom_mean": 14.62,
+      "delta": 138.98
+    },
+    "weekly_udvs_w6": {
+      "top_mean": 1803.64,
+      "bottom_mean": 1844.64,
+      "delta": -41.0
+    },
+    "weekly_orders_w6": {
+      "top_mean": 146.92,
+      "bottom_mean": 15.68,
+      "delta": 131.24
+    },
+    "weekly_udvs_w7": {
+      "top_mean": 1772.76,
+      "bottom_mean": 1712.66,
+      "delta": 60.1
+    },
+    "weekly_orders_w7": {
+      "top_mean": 140.98,
+      "bottom_mean": 14.08,
+      "delta": 126.9
+    },
+    "weekly_udvs_w8": {
+      "top_mean": 1695.48,
+      "bottom_mean": 1827.46,
+      "delta": -131.98
+    },
+    "weekly_orders_w8": {
+      "top_mean": 129.5,
+      "bottom_mean": 15.68,
+      "delta": 113.82
+    },
+    "title_length": {
+      "top_mean": 63.44,
+      "bottom_mean": 53.5,
+      "delta": 9.94
+    },
+    "title_word_count": {
+      "top_mean": 10.28,
+      "bottom_mean": 8.86,
+      "delta": 1.42
+    },
+    "desc_length": {
+      "top_mean": 895.02,
+      "bottom_mean": 540.66,
+      "delta": 354.36
+    },
+    "desc_word_count": {
+      "top_mean": 135.94,
+      "bottom_mean": 84.0,
+      "delta": 51.94
+    },
+    "fine_print_length": {
+      "top_mean": 155.84,
+      "bottom_mean": 110.56,
+      "delta": 45.28
+    },
+    "fine_print_restriction_count": {
+      "top_mean": 6.08,
+      "bottom_mean": 4.32,
+      "delta": 1.76
+    },
+    "desc_flesch_ease": {
+      "top_mean": 43.003,
+      "bottom_mean": 51.674,
+      "delta": -8.671
+    },
+    "desc_fk_grade": {
+      "top_mean": 10.552,
+      "bottom_mean": 8.729,
+      "delta": 1.822
+    },
+    "title_flesch_ease": {
+      "top_mean": 41.357,
+      "bottom_mean": 39.781,
+      "delta": 1.576
+    },
+    "desc_polarity": {
+      "top_mean": 0.256,
+      "bottom_mean": 0.321,
+      "delta": -0.065
+    },
+    "desc_subjectivity": {
+      "top_mean": 0.486,
+      "bottom_mean": 0.498,
+      "delta": -0.011
+    },
+    "title_polarity": {
+      "top_mean": 0.05,
+      "bottom_mean": 0.27,
+      "delta": -0.221
+    },
+    "social_proof_count": {
+      "top_mean": 1.72,
+      "bottom_mean": 0.58,
+      "delta": 1.14
+    },
+    "urgency_count": {
+      "top_mean": 1.08,
+      "bottom_mean": 1.04,
+      "delta": 0.04
+    },
+    "specificity_count": {
+      "top_mean": 3.24,
+      "bottom_mean": 1.6,
+      "delta": 1.64
+    },
+    "structure_section_count": {
+      "top_mean": 3.0,
+      "bottom_mean": 1.4,
+      "delta": 1.6
+    },
+    "has_generic_options": {
+      "top_mean": 0.2,
+      "bottom_mean": 0.22,
+      "delta": -0.02
+    },
+    "num_options_available": {
+      "top_mean": 2.28,
+      "bottom_mean": 2.34,
+      "delta": -0.06
+    },
+    "price_to_value_ratio": {
+      "top_mean": 0.582,
+      "bottom_mean": 0.65,
+      "delta": -0.068
+    },
+    "log_price": {
+      "top_mean": 4.09,
+      "bottom_mean": 4.646,
+      "delta": -0.556
+    },
+    "fine_print_friction": {
+      "top_mean": 0.405,
+      "bottom_mean": 0.288,
+      "delta": 0.117
+    },
+    "desc_to_fine_print_ratio": {
+      "top_mean": 26.541,
+      "bottom_mean": 27.586,
+      "delta": -1.045
+    }
+  },
+  "all_pearson": {
+    "structure_section_count": {
+      "r": 0.563,
+      "p": 0.0
+    },
+    "desc_length": {
+      "r": 0.5534,
+      "p": 0.0
+    },
+    "desc_word_count": {
+      "r": 0.5482,
+      "p": 0.0
+    },
+    "specificity_count": {
+      "r": 0.4999,
+      "p": 0.0
+    },
+    "desc_fk_grade": {
+      "r": 0.4633,
+      "p": 0.0
+    },
+    "image_quality_score": {
+      "r": 0.4584,
+      "p": 0.0
+    },
+    "desc_flesch_ease": {
+      "r": -0.3876,
+      "p": 0.0
+    },
+    "title_polarity": {
+      "r": -0.3571,
+      "p": 0.0
+    },
+    "title_length": {
+      "r": 0.3562,
+      "p": 0.0
+    },
+    "title_word_count": {
+      "r": 0.3163,
+      "p": 0.0
+    },
+    "social_proof_count": {
+      "r": 0.2763,
+      "p": 0.0
+    },
+    "desc_to_fine_print_ratio": {
+      "r": 0.2346,
+      "p": 0.0
+    },
+    "desc_polarity": {
+      "r": -0.2307,
+      "p": 0.0
+    },
+    "fine_print_restriction_count": {
+      "r": 0.151,
+      "p": 0.0007
+    },
+    "fine_print_friction": {
+      "r": 0.151,
+      "p": 0.0007
+    },
+    "log_price": {
+      "r": -0.142,
+      "p": 0.0015
+    },
+    "desc_subjectivity": {
+      "r": -0.1152,
+      "p": 0.01
+    },
+    "urgency_count": {
+      "r": 0.0912,
+      "p": 0.0415
+    },
+    "price_to_value_ratio": {
+      "r": -0.0765,
+      "p": 0.0875
+    },
+    "discount_pct": {
+      "r": 0.0765,
+      "p": 0.0876
+    },
+    "title_flesch_ease": {
+      "r": 0.0581,
+      "p": 0.1943
+    },
+    "num_options_available": {
+      "r": -0.0516,
+      "p": 0.2496
+    },
+    "has_generic_options": {
+      "r": -0.009,
+      "p": 0.8411
+    }
+  }
+}
