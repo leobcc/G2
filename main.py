@@ -1,36 +1,59 @@
 import pandas as pd
-from src.optimizer import optimize_deal
-from src.evaluator import evaluate_deal_content
+import asyncio
+import os
+import json
+from src.optimizer import optimize_deal_async
+from src.evaluator import evaluate_deal_content_async
 import time
 
-def process_deals(limit=5):
-    filepath = "data/deals.csv"
-    df = pd.read_csv(filepath).head(limit)
-    results = []
-
-    print(f"Starting PoC on {limit} deals to test optimization engine.")
-
-    for i, row in df.iterrows():
-        deal_dict = row.to_dict()
+async def process_single_deal(deal_dict):
+    """Async pipeline for optimizing and evaluating a single deal"""
+    try:
+        # Step 1: Optimize the content using Chain-of-Thought & Pydantic Validation
+        new_content_obj = await optimize_deal_async(deal_dict)
+        new_content = new_content_obj.model_dump()
         
-        # Step 1: Optimize the content
-        new_content = optimize_deal(deal_dict)
+        # Step 2: Multi-Metric NLP & LLM-Judge Evaluation
+        eval_metrics = await evaluate_deal_content_async(deal_dict, new_content)
         
-        # Step 2: Evaluate the optimization using an LLM-as-a-judge
-        eval_metrics = evaluate_deal_content(deal_dict, new_content)
-        
-        results.append({
+        return {
             "original": deal_dict,
             "new_content": new_content,
             "eval_metrics": eval_metrics
-        })
-        time.sleep(1) # rate limiting for API
-        
-    # Save the PoC run
-    import os
+        }
+    except Exception as e:
+        print(f"Error processing deal {deal_dict.get('deal_id', 'Unknown')}: {e}")
+        return None
+
+async def process_deals_bulk(limit=5):
+    filepath = "data/deals.csv"
+    if not os.path.exists(filepath):
+        print(f"File not found: {filepath}")
+        return
+
+    df = pd.read_csv(filepath).head(limit)
+    print(f"Starting CUTTING-EDGE ASYNC PoC on {limit} deals.")
+    
+    start_time = time.time()
+    
+    # Process concurrently using asyncio gather
+    tasks = [process_single_deal(row.to_dict()) for i, row in df.iterrows()]
+    results = await asyncio.gather(*tasks)
+    
+    # Filter out any failed processing
+    results = [r for r in results if r is not None]
+    
+    elapsed_time = time.time() - start_time
+    print(f"Processed {len(results)} deals concurrently in {elapsed_time:.2f} seconds.")
+    
+    # Save Output
     os.makedirs("results", exist_ok=True)
     pd.DataFrame(results).to_json("results/poc_results.json", orient='records', indent=4)
-    print(f"\nProcessing complete. Saved {len(results)} evaluated optimizations to results/poc_results.json.\n")
+    print(f"Saved highly robust evaluations to results/poc_results.json.\n")
 
 if __name__ == "__main__":
-    process_deals()
+    import platform
+    if os.name == 'nt' or platform.system() == 'Windows':
+        asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
+        
+    asyncio.run(process_deals_bulk(limit=5))
