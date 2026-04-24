@@ -96,12 +96,20 @@ def run_pipeline(
     RESULTS_DIR.mkdir(exist_ok=True)
 
     # ── 1. Load & prepare ────────────────────────
+    logger.info("─" * 60)
+    logger.info("STEP 1/4  Load & Analyse — feature engineering + statistical analysis")
     df_full = load_and_prepare(DATA_PATH, run_analysis=run_eda)
+    logger.info("STEP 1/4  Complete")
 
     # ── 2. Triage ────────────────────────────────
+    logger.info("─" * 60)
+    logger.info("STEP 2/4  Triage — scoring all deals and selecting priority batch")
     df_batch = triage(df_full, limit)
 
     # ── 3. Optimize & Evaluate ───────────────────
+    logger.info("─" * 60)
+    logger.info(f"STEP 3/4  Optimize & Evaluate — processing {limit} deals via LLM")
+    logger.info("─" * 60)
     results = []
     stats = {'pass': 0, 'marginal': 0, 'fail': 0, 'error': 0}
 
@@ -166,6 +174,8 @@ def run_pipeline(
         time.sleep(0.8)
 
     # ── 4. Save results ───────────────────────────
+    logger.info("─" * 60)
+    logger.info("STEP 4/4  Saving results...")
     results_df = pd.DataFrame(results)
 
     json_path = RESULTS_DIR / f"pipeline_results_{run_ts}.json"

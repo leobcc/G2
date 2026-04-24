@@ -10,7 +10,7 @@
 
 | # | Deliverable | Location |
 |---|---|---|
-| 1 | **Analysis** — what patterns drive conversion | [`notebooks/exploration.ipynb`](notebooks/exploration.ipynb) |
+| 1 | **Analysis** — what patterns drive conversion | [`notebooks/exploration_and_evaluation.ipynb`](notebooks/exploration_and_evaluation.ipynb) |
 | 2 | **Working PoC** — scores, rewrites, and evaluates deals | [`src/`](src/), [`main.py`](main.py) |
 | 3 | **Operations Blueprint** — path from 100 FTE to AI-first ops | [`docs/operations_blueprint.md`](docs/operations_blueprint.md) |
 
@@ -50,14 +50,14 @@ Validates the analyzer and scorer against the full 500-deal dataset.
 
 ### 5. Open the analysis notebook
 ```bash
-jupyter notebook notebooks/exploration.ipynb
+jupyter notebook notebooks/exploration_and_evaluation.ipynb
 ```
 
 ---
 
 ## Deliverable 1 — Analysis
 
-**File:** [`notebooks/exploration.ipynb`](notebooks/exploration.ipynb)
+**File:** [`notebooks/exploration_and_evaluation.ipynb`](notebooks/exploration_and_evaluation.ipynb)
 
 The notebook walks through 10 sections of analysis on the 500-deal dataset:
 
@@ -66,7 +66,7 @@ The notebook walks through 10 sections of analysis on the 500-deal dataset:
 3. **Random Forest feature importances** — 200 trees, 5-fold CV **R² = 0.665**
 4. **Top vs bottom performer comparison** — mean feature values, top 20% vs bottom 20% CVR
 5. **Category-stratified CVR analysis** — boxplots + word count scatter with trend line
-6. **Weekly CVR decay analysis** *(new)* — 8-week time series; top-quality content holds **3.5× CVR advantage every week**, gap never closes
+6. **Weekly CVR decay analysis** — 8-week time series; top-quality content holds **3.5× CVR advantage every week**, gap never closes
 7. **Before/after composite score comparison** — 10 rewritten deals, mean **+36.4 pts**
 8. **Blinded A/B LLM judge breakdown** — 5 axes × 20 pts each
 9. **Sample before/after deal showcase** — rendered HTML cards
@@ -190,7 +190,7 @@ Covers:
 │   └── retrainer.py                Feedback loop: post-CVR retraining of RF weights
 │
 ├── notebooks/
-│   └── exploration.ipynb           Full analysis notebook (Deliverable 1)
+│   └── exploration_and_evaluation.ipynb           Full analysis notebook (Deliverable 1)
 │
 ├── docs/
 │   ├── operations_blueprint.md     Ops blueprint (Deliverable 3)
@@ -239,7 +239,7 @@ Ensures rewrites are grounded in the original content — not hallucinating new 
 Top-performing deals within the same category provide the most relevant signal. A spa deal and a home services deal have different conversion patterns; cross-category examples dilute the prompt.
 
 **Does the system improve over time?**
-Yes — and this is implemented, not theoretical. The scorer weights are **derived directly from RF importances** at module import time (not hand-tuned constants). `src/retrainer.py` ingests post-rewrite CVR observations, augments the training dataset, re-fits the RF model, and updates `docs/analysis_findings.json` — from which `scorer.py` auto-loads new weights on next import. No code changes required. The retrainer includes drift detection (flags features that shift >5% importance), a minimum-observation guard (prevents retraining on noise), and a simulation mode for testing without live data.
+Yes. The scorer weights are **derived directly from RF importances** at module import time (not hand-tuned constants). `src/retrainer.py` ingests post-rewrite CVR observations, augments the training dataset, re-fits the RF model, and updates `docs/analysis_findings.json` — from which `scorer.py` auto-loads new weights on next import. No code changes required. The retrainer includes drift detection (flags features that shift >5% importance), a minimum-observation guard (prevents retraining on noise), and a simulation mode for testing without live data.
 
 ```bash
 # Simulate retraining with synthetic post-rewrite CVR data:

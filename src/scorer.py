@@ -266,6 +266,8 @@ def score_deal(deal: Union[dict, object]) -> dict:
 def score_dataframe(df) -> 'pd.DataFrame':
     """Batch score an entire DataFrame of deals."""
     import pandas as pd
-    scores = df.apply(score_deal, axis=1)
+    from tqdm import tqdm
+    tqdm.pandas(desc="  Scoring deals", leave=False)
+    scores = df.progress_apply(score_deal, axis=1)
     results = pd.DataFrame(scores.tolist(), index=df.index)
     return results

@@ -4,6 +4,7 @@ Deep exploratory data analysis and NLP feature engineering for Groupon deal cont
 Extracts 20+ features and models their relationship with conversion rate (CVR).
 """
 
+import logging
 import pandas as pd
 import numpy as np
 import re
@@ -20,6 +21,9 @@ from sklearn.linear_model import LinearRegression
 from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import cross_val_score
 from sklearn.pipeline import Pipeline
+from tqdm import tqdm
+
+logger = logging.getLogger(__name__)
 
 
 # ─────────────────────────────────────────────
@@ -120,6 +124,8 @@ def engineer_features(df: pd.DataFrame) -> pd.DataFrame:
     Compute the full suite of 20+ content features on a deals DataFrame.
     """
     df = df.copy()
+    n = len(df)
+    logger.info(f"  [1/5] Basic length features ({n} deals)...")
 
     # --- Basic length features ---
     df['title_length'] = df['title'].fillna('').apply(len)
@@ -129,22 +135,27 @@ def engineer_features(df: pd.DataFrame) -> pd.DataFrame:
     df['fine_print_length'] = df['fine_print'].fillna('').apply(len)
     df['fine_print_restriction_count'] = df['fine_print'].apply(count_fine_print_restrictions)
 
+    logger.info(f"  [2/5] Readability scores (textstat, {n} descriptions)...")
     # --- Readability ---
-    desc_read = df['description'].fillna('').apply(get_readability).apply(pd.Series)
+    tqdm.pandas(desc="    Readability", leave=False)
+    desc_read = df['description'].fillna('').progress_apply(get_readability).apply(pd.Series)
     df['desc_flesch_ease'] = desc_read['flesch_ease']
     df['desc_fk_grade'] = desc_read['flesch_kincaid_grade']
 
     title_read = df['title'].fillna('').apply(get_readability).apply(pd.Series)
     df['title_flesch_ease'] = title_read['flesch_ease']
 
+    logger.info(f"  [3/5] Sentiment analysis (TextBlob, {n} texts)...")
     # --- Sentiment ---
-    desc_sent = df['description'].fillna('').apply(get_sentiment)
+    tqdm.pandas(desc="    Sentiment", leave=False)
+    desc_sent = df['description'].fillna('').progress_apply(get_sentiment)
     df['desc_polarity'] = desc_sent.apply(lambda x: x[0])
     df['desc_subjectivity'] = desc_sent.apply(lambda x: x[1])
 
     title_sent = df['title'].fillna('').apply(get_sentiment)
     df['title_polarity'] = title_sent.apply(lambda x: x[0])
 
+    logger.info(f"  [4/5] Pattern-based signals (social proof, urgency, specificity, structure)...")
     # --- Pattern-based signals ---
     df['social_proof_count'] = df['description'].fillna('').apply(
         lambda x: count_pattern_matches(x, SOCIAL_PROOF_PATTERNS))
@@ -157,6 +168,7 @@ def engineer_features(df: pd.DataFrame) -> pd.DataFrame:
     df['structure_section_count'] = df['description'].fillna('').apply(
         lambda x: count_pattern_matches(x, STRUCTURE_PATTERNS))
 
+    logger.info(f"  [5/5] Pricing, options, and derived features...")
     # --- Option quality ---
     df['has_generic_options'] = df['option_names'].apply(has_generic_options)
     df['num_options_available'] = df['num_options'].fillna(1)
@@ -172,6 +184,8 @@ def engineer_features(df: pd.DataFrame) -> pd.DataFrame:
     df['desc_to_fine_print_ratio'] = df['desc_word_count'] / (
         df['fine_print_restriction_count'].replace(0, 1))
 
+    feat_count = len([c for c in df.columns if c not in ['deal_id','title','description','fine_print','option_names','merchant_name','geo','category','subcategory']])
+    logger.info(f"  Feature engineering complete — {feat_count} total columns")
     return df
 
 
@@ -211,11 +225,13 @@ def run_statistical_analysis(df: pd.DataFrame) -> dict:
     # ─── Random Forest importance ───
     X = sub[available_cols].copy()
     y = sub['cvr']
+    logger.info("  Fitting RandomForest (200 trees, n_jobs=-1)...")
     rf = RandomForestRegressor(n_estimators=200, random_state=42, n_jobs=-1)
     rf.fit(X, y)
     rf_importance = dict(zip(available_cols, rf.feature_importances_.round(4)))
     rf_importance = dict(sorted(rf_importance.items(), key=lambda x: x[1], reverse=True))
 
+    logger.info("  Running 5-fold cross-validation...")
     rf_cv = cross_val_score(rf, X, y, cv=5, scoring='r2')
 
     return {
@@ -253,19 +269,18 @@ def run_full_analysis(filepath: str = "data/deals.csv", save_dir: str = "docs") 
     """
     Master analysis function. Runs everything and saves a JSON findings report.
     """
-    print("Loading data...")
+    logger.info("Loading data...")
     df = pd.read_csv(filepath)
-    print(f"  -> {len(df)} deals loaded")
+    logger.info(f"  -> {len(df)} deals across {df['category'].nunique()} categories")
 
-    print("Engineering features...")
+    logger.info("Engineering NLP features (readability + sentiment + patterns)...")
     df = engineer_features(df)
-    print(f"  -> {len([c for c in df.columns if c not in pd.read_csv(filepath).columns])} new features created")
 
-    print("Running statistical analysis...")
+    logger.info("Running statistical analysis (Pearson/Spearman correlations + RF)...")
     stats_results = run_statistical_analysis(df)
-    print(f"  -> RF CV R2 = {stats_results['rf_cv_r2_mean']:.4f} +/- {stats_results['rf_cv_r2_std']:.4f}")
+    logger.info(f"  -> RF CV R2 = {stats_results['rf_cv_r2_mean']:.4f} +/- {stats_results['rf_cv_r2_std']:.4f}")
 
-    print("Computing top vs bottom performer comparison...")
+    logger.info("Computing top vs bottom performer comparison...")
     perf_comparison = get_top_bottom_performers(df, n=min(50, len(df) // 5))
 
     # Category-level CVR stats
@@ -291,17 +306,18 @@ def run_full_analysis(filepath: str = "data/deals.csv", save_dir: str = "docs") 
     }
 
     os.makedirs(save_dir, exist_ok=True)
-    with open(os.path.join(save_dir, 'analysis_findings.json'), 'w') as f:
+    out_path = os.path.join(save_dir, 'analysis_findings.json')
+    with open(out_path, 'w') as f:
         json.dump(findings, f, indent=2)
 
-    print(f"\nOK Analysis complete. Findings saved to {save_dir}/analysis_findings.json")
-    print("\nTop positive features (Pearson r, p-value):")
+    logger.info(f"Analysis complete -> {out_path}")
+    logger.info(f"  n_deals={stats_results['n_deals']}  RF_CV_R2={stats_results['rf_cv_r2_mean']:.4f}")
+    logger.info("  Top positive features (Pearson r):")
     for feat, vals in sorted(top_positive_features.items(), key=lambda x: x[1]['r'], reverse=True):
-        print(f"  {feat:35s} r={vals['r']:+.4f}  p={vals['p']:.4f}")
-
-    print("\nTop negative features:")
+        logger.info(f"    {feat:35s} r={vals['r']:+.4f}  p={vals['p']:.4f}")
+    logger.info("  Top negative features:")
     for feat, vals in sorted(top_negative_features.items(), key=lambda x: x[1]['r']):
-        print(f"  {feat:35s} r={vals['r']:+.4f}  p={vals['p']:.4f}")
+        logger.info(f"    {feat:35s} r={vals['r']:+.4f}  p={vals['p']:.4f}")
 
     return findings, df
 
