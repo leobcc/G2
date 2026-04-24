@@ -1,8 +1,0 @@
-Correlations with CVR:
-cvr                    1.000000
-desc_word_count        0.548188
-image_quality_score    0.458359
-title_length           0.356197
-fine_print_length      0.142084
-discount_pct           0.076479
-price                 -0.185560
