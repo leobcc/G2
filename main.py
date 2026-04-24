@@ -35,7 +35,9 @@ from src.evaluator import evaluate_rewrite
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s  %(levelname)-8s  %(message)s',
-    datefmt='%H:%M:%S'
+    datefmt='%H:%M:%S',
+    stream=sys.stdout,  # stdout flushes line-by-line in a terminal; also avoids CP1252 stderr issues
+    force=True,
 )
 logger = logging.getLogger(__name__)
 
@@ -97,19 +99,19 @@ def run_pipeline(
 
     # ── 1. Load & prepare ────────────────────────
     logger.info("─" * 60)
-    logger.info("STEP 1/4  Load & Analyse — feature engineering + statistical analysis")
+    logger.info("STEP 1/4  Load & Analyse - feature engineering + statistical analysis")
     df_full = load_and_prepare(DATA_PATH, run_analysis=run_eda)
     logger.info("STEP 1/4  Complete")
 
     # ── 2. Triage ────────────────────────────────
-    logger.info("─" * 60)
-    logger.info("STEP 2/4  Triage — scoring all deals and selecting priority batch")
+    logger.info("-" * 60)
+    logger.info("STEP 2/4  Triage - scoring all deals and selecting priority batch")
     df_batch = triage(df_full, limit)
 
     # ── 3. Optimize & Evaluate ───────────────────
-    logger.info("─" * 60)
-    logger.info(f"STEP 3/4  Optimize & Evaluate — processing {limit} deals via LLM")
-    logger.info("─" * 60)
+    logger.info("-" * 60)
+    logger.info(f"STEP 3/4  Optimize & Evaluate - processing {limit} deals via LLM")
+    logger.info("-" * 60)
     results = []
     stats = {'pass': 0, 'marginal': 0, 'fail': 0, 'error': 0}
 
@@ -121,11 +123,17 @@ def run_pipeline(
                     f"ContentScore={deal.get('content_score', '?'):.1f}")
 
         try:
+            logger.info(f"         [1/2] LLM rewriting...")
+            _t0 = time.time()
             # Optimize (with category-aware few-shot context)
             optimized = optimize_deal(deal, df_reference=df_full)
+            logger.info(f"         [1/2] done ({time.time()-_t0:.1f}s)")
 
+            logger.info(f"         [2/2] LLM judging (blinded A/B)...")
+            _t0 = time.time()
             # Evaluate
             evaluation = evaluate_rewrite(deal, optimized, scorer_fn=score_deal)
+            logger.info(f"         [2/2] done ({time.time()-_t0:.1f}s)")
             verdict = evaluation.get('verdict', 'FAIL')
             stats[verdict.lower()] += 1
 
@@ -133,8 +141,8 @@ def run_pipeline(
             comp_delta        = evaluation.get('composite', {}).get('delta', 0)
             words_added       = evaluation.get('length', {}).get('words_added', 0)
 
-            logger.info(f"         → {verdict}  | CompositeΔ={comp_delta:+.1f}  "
-                        f"JudgeΔ={judge_score_delta:+.0f}  WordsAdded={words_added:+d}")
+            logger.info(f"         >> {verdict}  | CompositeD={comp_delta:+.1f}  "
+                        f"JudgeD={judge_score_delta:+.0f}  WordsAdded={words_added:+d}")
 
             results.append({
                 'deal_id':          deal.get('deal_id'),

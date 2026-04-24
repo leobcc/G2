@@ -188,7 +188,7 @@ def engineer_features(df: pd.DataFrame) -> pd.DataFrame:
         df['fine_print_restriction_count'].replace(0, 1))
 
     feat_count = len([c for c in df.columns if c not in ['deal_id','title','description','fine_print','option_names','merchant_name','geo','category','subcategory']])
-    logger.info(f"  Feature engineering complete — {feat_count} total columns")
+    logger.info(f"  Feature engineering complete - {feat_count} total columns")
     return df
 
 
