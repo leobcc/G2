@@ -1,7 +1,7 @@
 # Operations Blueprint: AI-First Content Optimization
 ### Replacing 100 Manual FTEs with a Scalable, Auditable AI Pipeline
 
-**Author:** Leo B | **Date:** April 2026 | **Context:** Groupon Chief of Staff — Global Operations
+**Author:** Leonardo Bocchi | **Date:** April 2026 | **Context:** Groupon Chief of Staff — Global Operations
 
 ---
 

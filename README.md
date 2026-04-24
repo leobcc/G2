@@ -1,7 +1,7 @@
 # Content That Converts
 ### Groupon Global Operations — Case Study Submission
 
-**Author:** Leo B | **Model:** llama-3.3-70b-versatile (Groq) | **Dataset:** 500 deals, 8 weeks of CVR data
+**Author:** Leonardo Bocchi | **Model:** llama-3.3-70b-versatile (Groq) | **Dataset:** 500 deals, 8 weeks of CVR data
 
 ---
 
