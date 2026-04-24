@@ -266,8 +266,13 @@ def score_deal(deal: Union[dict, object]) -> dict:
 def score_dataframe(df) -> 'pd.DataFrame':
     """Batch score an entire DataFrame of deals."""
     import pandas as pd
-    from tqdm import tqdm
-    tqdm.pandas(desc="  Scoring deals", leave=False)
-    scores = df.progress_apply(score_deal, axis=1)
+    import logging
+    import time
+    _log = logging.getLogger(__name__)
+    n = len(df)
+    _log.info(f"  Scoring {n} deals...")
+    _t = time.time()
+    scores = df.apply(score_deal, axis=1)
     results = pd.DataFrame(scores.tolist(), index=df.index)
+    _log.info(f"        done ({time.time() - _t:.1f}s)")
     return results
