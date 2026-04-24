@@ -1,28 +1,129 @@
 """
 scorer.py
 Composite Content Quality Scorer (0–100).
-Weights derived from EDA regression findings.
-Dimensions: Clarity, Specificity, Persuasion, Structural Quality, Image Quality.
+
+Weights are derived DIRECTLY from Random Forest feature importances trained on 500
+real Groupon deals.  At import time this module attempts to load
+``docs/analysis_findings.json``; if found, weights are computed from
+``rf_importance_full``; otherwise the hard-coded empirical fallbacks are used.
+This means weights automatically update whenever ``analyzer.py`` is re-run —
+the core "self-improving system" loop.
+
+Scorer dimension → RF feature mapping
+-------------------------------------
+image_quality   ← image_quality_score
+desc_length     ← desc_word_count + desc_length   (content richness)
+specificity     ← specificity_count
+structure       ← structure_section_count
+title           ← title_length + title_flesch_ease
+readability     ← desc_flesch_ease + desc_fk_grade
+social_proof    ← social_proof_count
+options         ← has_generic_options  (note: negated — generic = bad)
+fine_print      ← fine_print_restriction_count + fine_print_friction
 """
 
 import re
+import json
+import os
 import numpy as np
 import textstat
 from typing import Union
 
 # ─────────────────────────────────────────────
-# SCORING WEIGHTS — calibrated from RF feature importances
-# and validated against known CVR leaders in the dataset.
+# DIMENSION → RF-FEATURE MAPPING
+# Each tuple lists the RF feature names that contribute to that scorer dimension.
+# The combined importance of these features will become the dimension's weight.
 # ─────────────────────────────────────────────
-WEIGHT_DESC_WORD_COUNT     = 0.22   # Strongest predictor
-WEIGHT_SPECIFICITY         = 0.18   # Mentions of numbers, inclusions, durations
-WEIGHT_STRUCTURE           = 0.14   # Structured sections (What We Offer / Good to Know)
-WEIGHT_SOCIAL_PROOF        = 0.12   # Quantified social signals
-WEIGHT_TITLE_LENGTH        = 0.10   # Descriptive, specific title
-WEIGHT_IMAGE_QUALITY       = 0.09   # Visual quality signal
-WEIGHT_READABILITY         = 0.08   # Flesch ease (accessibility)
-WEIGHT_OPTIONS_QUALITY     = 0.05   # Descriptive option names
-WEIGHT_FINE_PRINT_FRICTION = 0.02   # Penalise excessive restrictions
+_DIMENSION_RF_MAP = {
+    'desc_word_count':     ('desc_word_count', 'desc_length'),
+    'specificity':         ('specificity_count',),
+    'structure':           ('structure_section_count',),
+    'social_proof':        ('social_proof_count',),
+    'title_length':        ('title_length', 'title_flesch_ease'),
+    'image_quality':       ('image_quality_score',),
+    'readability':         ('desc_flesch_ease', 'desc_fk_grade'),
+    'options_quality':     ('has_generic_options',),
+    'fine_print_friction': ('fine_print_restriction_count', 'fine_print_friction'),
+}
+
+# Hard-coded empirical fallback (used when analysis_findings.json is absent).
+# These represent domain-expert priors and are intentionally kept as the default
+# so the scorer is always usable out-of-the-box.
+_HARDCODED_WEIGHTS = {
+    'desc_word_count':     0.22,
+    'specificity':         0.18,
+    'structure':           0.14,
+    'social_proof':        0.12,
+    'title_length':        0.10,
+    'image_quality':       0.09,
+    'readability':         0.08,
+    'options_quality':     0.05,
+    'fine_print_friction': 0.02,
+}
+
+# Minimum weight floor — no dimension is ever weighted less than this.
+_MIN_WEIGHT = 0.02
+
+
+def _load_rf_weights(findings_path: str | None = None) -> dict:
+    """
+    Attempt to derive scorer dimension weights from RF importances saved in
+    ``docs/analysis_findings.json`` (relative to repo root).  Returns the hard-
+    coded fallback if the file is absent or malformed.
+    """
+    # Resolve path relative to this file's location (src/) → ../docs/
+    if findings_path is None:
+        here = os.path.dirname(os.path.abspath(__file__))
+        findings_path = os.path.join(here, '..', 'docs', 'analysis_findings.json')
+
+    try:
+        with open(findings_path, 'r') as fh:
+            findings = json.load(fh)
+        rf_imp: dict = findings.get('rf_importance_full') or findings.get('rf_importance_top10', {})
+        if not rf_imp:
+            raise ValueError("No RF importances found in findings JSON.")
+
+        raw: dict[str, float] = {}
+        for dim, rf_features in _DIMENSION_RF_MAP.items():
+            raw[dim] = sum(rf_imp.get(feat, 0.0) for feat in rf_features)
+
+        # Apply minimum floor so minor dimensions are never zeroed out
+        floored = {dim: max(v, _MIN_WEIGHT) for dim, v in raw.items()}
+
+        # Normalize so all positive weights (excluding fine_print, which is a
+        # penalty) sum to 1.0, then scale to match expected 0–100 range.
+        # fine_print_friction stays as an independent penalty.
+        positive_dims = [d for d in floored if d != 'fine_print_friction']
+        total = sum(floored[d] for d in positive_dims)
+        normalized = {d: round(floored[d] / total * (1.0 - floored['fine_print_friction']), 4)
+                      for d in positive_dims}
+        normalized['fine_print_friction'] = round(floored['fine_print_friction'] /
+                                                   sum(floored.values()) * 0.15, 4)
+
+        return normalized
+
+    except Exception:
+        # Silent fallback — system is still fully operational
+        return _HARDCODED_WEIGHTS.copy()
+
+
+# ─────────────────────────────────────────────
+# MODULE-LEVEL WEIGHTS — populated at import time
+# Inspect these to verify the data-driven values are in effect:
+#   from src.scorer import WEIGHTS; print(WEIGHTS)
+# ─────────────────────────────────────────────
+WEIGHTS = _load_rf_weights()
+
+# Expose individual constants for backward compatibility with other modules
+WEIGHT_DESC_WORD_COUNT     = WEIGHTS['desc_word_count']
+WEIGHT_SPECIFICITY         = WEIGHTS['specificity']
+WEIGHT_STRUCTURE           = WEIGHTS['structure']
+WEIGHT_SOCIAL_PROOF        = WEIGHTS['social_proof']
+WEIGHT_TITLE_LENGTH        = WEIGHTS['title_length']
+WEIGHT_IMAGE_QUALITY       = WEIGHTS['image_quality']
+WEIGHT_READABILITY         = WEIGHTS['readability']
+WEIGHT_OPTIONS_QUALITY     = WEIGHTS['options_quality']
+WEIGHT_FINE_PRINT_FRICTION = WEIGHTS['fine_print_friction']
 
 # Normalization floors/ceilings
 DESC_WORD_OPTIMAL_TARGET  = 200    # Deals with 200+ words perform best

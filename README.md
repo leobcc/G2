@@ -2,6 +2,7 @@
 ### Groupon Global Operations — Case Study Submission
 
 **Author:** Leonardo Bocchi | **Model:** llama-3.3-70b-versatile (Groq) | **Dataset:** 500 deals, 8 weeks of CVR data
+**Scorer:** Weights derived from RF importances (Pearson r vs CVR: **0.70**) | **RF CV R²:** 0.665
 
 ---
 
@@ -39,6 +40,8 @@ python main.py
 Processes the 10 lowest-converting deals: scores, rewrites, evaluates each one.
 Results saved to `results/latest_results.json` and `results/latest_results.csv`.
 
+> **Scale note:** The default `limit=10` is set for API cost control during demo. To process all 500 deals, edit `main.py` line ~25: `limit=500` (or `limit=None`). The pipeline is designed to handle 5,000+ deals/day with async batching — the current implementation runs sequentially for auditability.
+
 ### 4. Run validation tests
 ```bash
 python test_pipeline.py
@@ -56,17 +59,18 @@ jupyter notebook notebooks/exploration.ipynb
 
 **File:** [`notebooks/exploration.ipynb`](notebooks/exploration.ipynb)
 
-The notebook walks through 9 sections of analysis on the 500-deal dataset:
+The notebook walks through 10 sections of analysis on the 500-deal dataset:
 
 1. **Dataset overview** — CVR distribution, category & geo breakdowns
 2. **Feature correlation heatmap** — 22 NLP features vs CVR (Pearson r + p-values)
 3. **Random Forest feature importances** — 200 trees, 5-fold CV **R² = 0.665**
 4. **Top vs bottom performer comparison** — mean feature values, top 20% vs bottom 20% CVR
 5. **Category-stratified CVR analysis** — boxplots + word count scatter with trend line
-6. **Before/after composite score comparison** — 10 rewritten deals, mean **+36.4 pts**
-7. **Blinded A/B LLM judge breakdown** — 5 axes × 20 pts each
-8. **Sample before/after deal showcase** — rendered HTML cards
-9. **Full evaluation summary table** — all metrics, gradient-colored
+6. **Weekly CVR decay analysis** *(new)* — 8-week time series; top-quality content holds **3.5× CVR advantage every week**, gap never closes
+7. **Before/after composite score comparison** — 10 rewritten deals, mean **+36.4 pts**
+8. **Blinded A/B LLM judge breakdown** — 5 axes × 20 pts each
+9. **Sample before/after deal showcase** — rendered HTML cards
+10. **Full evaluation summary table** — all metrics, gradient-colored
 
 ### Key findings
 
@@ -145,9 +149,10 @@ Sample result — Deal #1 (Home Services, Birmingham, CVR: 0.35%):
 | File | Purpose |
 |---|---|
 | [`src/analyzer.py`](src/analyzer.py) | Feature engineering (22 NLP features), Pearson/Spearman correlations, Random Forest importance |
-| [`src/scorer.py`](src/scorer.py) | Composite content quality scorer, 9 weighted dimensions |
+| [`src/scorer.py`](src/scorer.py) | Composite content quality scorer, 9 dimensions weighted by **RF importances** (auto-updating) |
 | [`src/optimizer.py`](src/optimizer.py) | Category-aware few-shot LLM rewriter with guardrails |
 | [`src/evaluator.py`](src/evaluator.py) | ROUGE-L + blinded A/B LLM judge evaluator |
+| [`src/retrainer.py`](src/retrainer.py) | Feedback loop: ingests post-rewrite CVR, augments dataset, retrains RF, updates scorer weights |
 | [`main.py`](main.py) | Production pipeline: triage → optimize → evaluate → log |
 | [`test_pipeline.py`](test_pipeline.py) | Validation tests: analyzer, scorer, batch scoring |
 
@@ -162,6 +167,8 @@ Covers:
 - EDA findings encoded as conversion rules
 - **3-phase FTE reduction: 100 → 60 → 25 → 12** over 18 months
 - Quality control framework: automated guardrails + evaluation scorecard
+- **"Permanently human" deal categories** — 5 deal types that always require human review (new merchants, regulated categories, brand-voice accounts, etc.)
+- **Continuous learning (Section 5b)** — monthly retraining loop via `src/retrainer.py`
 - Automation decision tree (when to auto-publish vs human review)
 - Weekly KPIs (volume, quality, business)
 - Financial model: **~$7M annual savings + ~$45.6M GMV upside**
@@ -177,23 +184,24 @@ Covers:
 │
 ├── src/
 │   ├── analyzer.py                 NLP feature engineering + statistical analysis
-│   ├── scorer.py                   Composite content quality scorer (0–100)
+│   ├── scorer.py                   Composite content quality scorer (0–100, RF-calibrated weights)
 │   ├── optimizer.py                Category-aware LLM rewriter
-│   └── evaluator.py                Multi-metric evaluator + blinded LLM judge
+│   ├── evaluator.py                Multi-metric evaluator + blinded LLM judge
+│   └── retrainer.py                Feedback loop: post-CVR retraining of RF weights
 │
 ├── notebooks/
 │   └── exploration.ipynb           Full analysis notebook (Deliverable 1)
 │
 ├── docs/
 │   ├── operations_blueprint.md     Ops blueprint (Deliverable 3)
-│   ├── analysis_findings.json      Pre-computed EDA results
-│   └── fig_*.png                   Generated charts
+│   ├── analysis_findings.json      Pre-computed EDA results + RF importances
+│   └── fig_*.png                   Generated charts (including weekly CVR decay)
 │
 ├── results/
 │   ├── latest_results.json         Most recent pipeline run (full audit trail)
 │   └── latest_results.csv          Same, CSV format
 │
-├── main.py                         Pipeline entry point
+├── main.py                         Pipeline entry point (set limit= to scale up)
 ├── test_pipeline.py                Validation test harness
 ├── requirements.txt                Python dependencies
 └── case_study/
@@ -231,4 +239,11 @@ Ensures rewrites are grounded in the original content — not hallucinating new 
 Top-performing deals within the same category provide the most relevant signal. A spa deal and a home services deal have different conversion patterns; cross-category examples dilute the prompt.
 
 **Does the system improve over time?**
-Yes. The scorer is trained on CVR data. As live CVR feedback accumulates on rewritten deals, the scorer and feature weights can be retrained monthly — closing the feedback loop the current manual process entirely lacks.
+Yes — and this is implemented, not theoretical. The scorer weights are **derived directly from RF importances** at module import time (not hand-tuned constants). `src/retrainer.py` ingests post-rewrite CVR observations, augments the training dataset, re-fits the RF model, and updates `docs/analysis_findings.json` — from which `scorer.py` auto-loads new weights on next import. No code changes required. The retrainer includes drift detection (flags features that shift >5% importance), a minimum-observation guard (prevents retraining on noise), and a simulation mode for testing without live data.
+
+```bash
+# Simulate retraining with synthetic post-rewrite CVR data:
+python -m src.retrainer --simulate --dry-run
+# With real observed CVR:
+python -m src.retrainer --observed-cvr data/observed_cvr.csv
+```

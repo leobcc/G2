@@ -255,15 +255,15 @@ def run_full_analysis(filepath: str = "data/deals.csv", save_dir: str = "docs") 
     """
     print("Loading data...")
     df = pd.read_csv(filepath)
-    print(f"  → {len(df)} deals loaded")
+    print(f"  -> {len(df)} deals loaded")
 
     print("Engineering features...")
     df = engineer_features(df)
-    print(f"  → {len([c for c in df.columns if c not in pd.read_csv(filepath).columns])} new features created")
+    print(f"  -> {len([c for c in df.columns if c not in pd.read_csv(filepath).columns])} new features created")
 
     print("Running statistical analysis...")
     stats_results = run_statistical_analysis(df)
-    print(f"  → RF CV R² = {stats_results['rf_cv_r2_mean']:.4f} ± {stats_results['rf_cv_r2_std']:.4f}")
+    print(f"  -> RF CV R2 = {stats_results['rf_cv_r2_mean']:.4f} +/- {stats_results['rf_cv_r2_std']:.4f}")
 
     print("Computing top vs bottom performer comparison...")
     perf_comparison = get_top_bottom_performers(df, n=min(50, len(df) // 5))
@@ -282,7 +282,9 @@ def run_full_analysis(filepath: str = "data/deals.csv", save_dir: str = "docs") 
         'top_positive_correlations': top_positive_features,
         'top_negative_correlations': top_negative_features,
         'rf_importance_top10': dict(list(stats_results['rf_importance'].items())[:10]),
+        'rf_importance_full': stats_results['rf_importance'],   # all features, used by scorer
         'rf_cv_r2': stats_results['rf_cv_r2_mean'],
+        'rf_cv_r2_std': stats_results['rf_cv_r2_std'],
         'category_cvr': cat_stats.to_dict(),
         'top_vs_bottom': perf_comparison,
         'all_pearson': stats_results['pearson'],
@@ -292,7 +294,7 @@ def run_full_analysis(filepath: str = "data/deals.csv", save_dir: str = "docs") 
     with open(os.path.join(save_dir, 'analysis_findings.json'), 'w') as f:
         json.dump(findings, f, indent=2)
 
-    print(f"\n✓ Analysis complete. Findings saved to {save_dir}/analysis_findings.json")
+    print(f"\nOK Analysis complete. Findings saved to {save_dir}/analysis_findings.json")
     print("\nTop positive features (Pearson r, p-value):")
     for feat, vals in sorted(top_positive_features.items(), key=lambda x: x[1]['r'], reverse=True):
         print(f"  {feat:35s} r={vals['r']:+.4f}  p={vals['p']:.4f}")

@@ -118,7 +118,7 @@ From statistical analysis of 500 deals (RF CV R² = 0.665):
 
 **Capabilities added:**
 - Automated A/B testing: AI generates 2 variants per deal, winner auto-selected after 72h
-- Feedback loop: Live CVR data retrains scorer monthly
+- **Feedback loop:** Live CVR data retrains scorer monthly via `src/retrainer.py` — see Section 5b
 - Multi-market: All 15 geos with locale-specific prompt tuning
 - Merchant self-serve: API endpoint for merchants to request rewrites
 
@@ -188,6 +188,17 @@ New/Updated Deal Submitted
  Optimizer   (already good)
     │
     ▼
+ ┌─────────────────────────────────────┐
+ │ Is this a "permanently human" deal? │  ←── See Section 5a below
+ └─────────────────────────────────────┘
+    ┌─────┴──────┐
+   YES           NO
+    │             │
+    ▼             ▼
+ Route to      Continue AI
+ human writer  optimization
+               │
+               ▼
  Verdict = PASS & all thresholds met?
     ┌─────┴──────┐
    YES           NO
@@ -201,6 +212,49 @@ Auto-publish   Verdict = MARGINAL?
          Human review    Force human
          queue (24h SLA)  rewrite
 ```
+
+### 5a. "Permanently Human" Deal Categories
+
+Certain deal types **must always have a human reviewer** regardless of AI verdict or composite score. Auto-publish is permanently disabled for these categories. This is a hard-coded rule that takes precedence over all automation thresholds.
+
+| Category | Reason | Action |
+|---|---|---|
+| **New merchant, first deal** | Merchant brand voice is unvalidated; AI has no prior examples; first impression is highest-stakes | Human writer creates from scratch; AI generates draft for review |
+| **Regulated categories** (medical, pharmaceutical, financial services, legal advice) | AI-generated medical claims or financial guidance may create legal liability; regulated advertising standards apply | Specialist human reviewer; legal sign-off required |
+| **Deals with legal contract excerpts** | Fine print in deals with contracts (timeshares, memberships, subscriptions) must not be paraphrased or summarized by AI | Human legal reviewer; AI blocked from touching fine print field |
+| **Merchant brand-voice-protected accounts** | Enterprise or high-value merchants with signed brand voice agreements (common with hotel chains, national retailers) | Human content manager with merchant style guide access |
+| **Deals involving children or minors** | Child-directed advertising is subject to COPPA and international equivalents; hyperbolic AI copy can create compliance issues | Human reviewer with compliance checklist |
+
+**Implementation:** A `deal_type_flags` field in the merchant record triggers routing. ML Ops maintains the flagging logic. The `rewrite_needed` flag is overridden to `False` for these deals, and they are routed directly to the human review queue with a `reason: permanent_human_review` tag in the audit log.
+
+### 5b. Continuous Learning: Feedback Loop Architecture
+
+The system is designed to **improve automatically** as post-rewrite CVR data accumulates. This closes the loop from "one-shot prompt engineering" to a self-improving ML system.
+
+```
+[Deal published after AI rewrite]
+         │
+         ▼
+[CVR observed over 8-week deal lifecycle]
+         │
+         ▼
+[observed_cvr.csv: deal_id + cvr_rewritten]
+         │
+         ▼
+   python -m src.retrainer --observed-cvr observed_cvr.csv
+         │
+         ├── Augments training set: 500 original + N post-rewrite observations
+         ├── Re-fits RandomForest on augmented dataset
+         ├── Detects feature importance drift (flags >5% shift)
+         ├── Updates docs/analysis_findings.json
+         └── scorer.py auto-loads new weights on next import (no code change)
+```
+
+**Cadence:** Monthly (minimum 20 new post-rewrite CVR observations required to trigger retrain — prevents overfitting on noise).
+
+**Validation approach:** Compare CV R² before/after retrain; flag if new R² drops by more than 0.05 (regression guard). Drift report is logged to `retraining_history` array in `analysis_findings.json`.
+
+**Simulation mode available:** `python -m src.retrainer --simulate` generates synthetic post-rewrite CVR observations using an empirically-calibrated uplift model (2% relative CVR per 10 content-quality points) for demo/testing without live data.
 
 ---
 
