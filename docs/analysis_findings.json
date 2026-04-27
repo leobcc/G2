@@ -1,5 +1,5 @@
 {
-  "n_deals": 510,
+  "n_deals": 500,
   "top_positive_correlations": {
     "structure_section_count": {
       "r": 0.563,
@@ -73,44 +73,44 @@
     }
   },
   "rf_importance_top10": {
-    "image_quality_score": 0.25893,
-    "log_price": 0.12756,
-    "desc_length": 0.11085,
-    "specificity_count": 0.09229,
-    "desc_word_count": 0.0895,
-    "price_to_value_ratio": 0.05867,
-    "structure_section_count": 0.05583,
-    "discount_pct": 0.04619,
-    "desc_to_fine_print_ratio": 0.03023,
-    "title_flesch_ease": 0.02161
+    "image_quality_score": 0.2587,
+    "log_price": 0.1308,
+    "specificity_count": 0.1102,
+    "desc_length": 0.1007,
+    "desc_word_count": 0.0741,
+    "price_to_value_ratio": 0.0625,
+    "structure_section_count": 0.0541,
+    "discount_pct": 0.0446,
+    "desc_to_fine_print_ratio": 0.0327,
+    "title_flesch_ease": 0.0227
   },
   "rf_importance_full": {
-    "image_quality_score": 0.25893,
-    "log_price": 0.12756,
-    "desc_length": 0.11085,
-    "specificity_count": 0.09229,
-    "desc_word_count": 0.0895,
-    "price_to_value_ratio": 0.05867,
-    "structure_section_count": 0.05583,
-    "discount_pct": 0.04619,
-    "desc_to_fine_print_ratio": 0.03023,
-    "title_flesch_ease": 0.02161,
-    "title_length": 0.02028,
-    "title_polarity": 0.01067,
-    "desc_fk_grade": 0.01012,
-    "desc_subjectivity": 0.01012,
-    "fine_print_restriction_count": 0.00986,
-    "title_word_count": 0.00985,
-    "num_options_available": 0.0093,
-    "desc_polarity": 0.00814,
-    "desc_flesch_ease": 0.00776,
-    "fine_print_friction": 0.00646,
-    "social_proof_count": 0.00243,
-    "has_generic_options": 0.00213,
-    "urgency_count": 0.0012
+    "image_quality_score": 0.2587,
+    "log_price": 0.1308,
+    "specificity_count": 0.1102,
+    "desc_length": 0.1007,
+    "desc_word_count": 0.0741,
+    "price_to_value_ratio": 0.0625,
+    "structure_section_count": 0.0541,
+    "discount_pct": 0.0446,
+    "desc_to_fine_print_ratio": 0.0327,
+    "title_flesch_ease": 0.0227,
+    "title_length": 0.0203,
+    "title_polarity": 0.0108,
+    "desc_subjectivity": 0.0106,
+    "desc_fk_grade": 0.01,
+    "title_word_count": 0.0099,
+    "num_options_available": 0.0096,
+    "fine_print_friction": 0.0089,
+    "desc_polarity": 0.0088,
+    "desc_flesch_ease": 0.0077,
+    "fine_print_restriction_count": 0.0066,
+    "social_proof_count": 0.0025,
+    "has_generic_options": 0.0021,
+    "urgency_count": 0.0011
   },
-  "rf_cv_r2": 0.685,
-  "rf_cv_r2_std": 0.0808,
+  "rf_cv_r2": 0.6652,
+  "rf_cv_r2_std": 0.083,
   "category_cvr": {
     "mean": {
       "Automotive": 0.03666,
@@ -468,45 +468,5 @@
       "r": -0.009,
       "p": 0.8411
     }
-  },
-  "rf_importance_full_prev": {
-    "image_quality_score": 0.2587,
-    "log_price": 0.1308,
-    "specificity_count": 0.1102,
-    "desc_length": 0.1007,
-    "desc_word_count": 0.0741,
-    "price_to_value_ratio": 0.0625,
-    "structure_section_count": 0.0541,
-    "discount_pct": 0.0446,
-    "desc_to_fine_print_ratio": 0.0327,
-    "title_flesch_ease": 0.0227,
-    "title_length": 0.0203,
-    "title_polarity": 0.0108,
-    "desc_subjectivity": 0.0106,
-    "desc_fk_grade": 0.01,
-    "title_word_count": 0.0099,
-    "num_options_available": 0.0096,
-    "fine_print_friction": 0.0089,
-    "desc_polarity": 0.0088,
-    "desc_flesch_ease": 0.0077,
-    "fine_print_restriction_count": 0.0066,
-    "social_proof_count": 0.0025,
-    "has_generic_options": 0.0021,
-    "urgency_count": 0.0011
-  },
-  "retraining_history": [
-    {
-      "timestamp": "2026-04-24T17:34:56.582337Z",
-      "n_original": 500,
-      "n_augmented": 10,
-      "n_total": 510,
-      "new_rf_cv_r2": 0.685,
-      "new_rf_cv_r2_std": 0.0808,
-      "drift": {
-        "mean_absolute_drift": 0.00284,
-        "interpretation": "Low drift \u2014 model is stable."
-      },
-      "source": "simulated"
-    }
-  ]
+  }
 }

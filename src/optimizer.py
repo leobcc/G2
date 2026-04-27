@@ -72,9 +72,12 @@ Output must be valid JSON with these EXACT keys:
   "reasoning": "...",
   "improved_title": "...",
   "improved_description": "...",
-  "improved_option_names": "...",
+  "improved_option_names": ["Option Name 1", "Option Name 2"],
   "improved_fine_print": "..."
 }}
+
+IMPORTANT: improved_option_names MUST be a JSON array of strings, one element per option.
+Never output it as a plain string or multiple quoted values outside an array.
 """
 
 
@@ -156,6 +159,11 @@ def _validate_output(original: dict, output: dict) -> tuple:
         if key not in output:
             violations.append(f"Missing key: {key}")
 
+    # 5. improved_option_names must be a list, not a bare string
+    opt_names = output.get('improved_option_names')
+    if opt_names is not None and not isinstance(opt_names, list):
+        violations.append("improved_option_names must be a JSON array, not a plain string")
+
     return (len(violations) == 0), violations
 
 
@@ -216,7 +224,7 @@ def optimize_deal(
         'reasoning': 'Optimization failed after all retries.',
         'improved_title': deal.get('title', ''),
         'improved_description': deal.get('description', ''),
-        'improved_option_names': deal.get('option_names', ''),
+        'improved_option_names': [o.strip() for o in str(deal.get('option_names', '')).split(',') if o.strip()],
         'improved_fine_print': deal.get('fine_print', ''),
         '_meta': {'attempt': max_retries, 'guardrail_passed': False, 'model': MODEL},
     }

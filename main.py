@@ -57,7 +57,7 @@ def load_and_prepare(filepath: Path, run_analysis: bool = True) -> pd.DataFrame:
     if run_analysis:
         logger.info("Running full statistical analysis...")
         try:
-            run_full_analysis(str(filepath))
+            run_full_analysis(str(filepath), df=df)
         except Exception as e:
             logger.warning(f"Analysis run encountered non-critical error: {e}")
 
@@ -104,14 +104,14 @@ def run_pipeline(
     logger.info("STEP 1/4  Complete")
 
     # ── 2. Triage ────────────────────────────────
-    logger.info("-" * 60)
+    logger.info("─" * 60)
     logger.info("STEP 2/4  Triage - scoring all deals and selecting priority batch")
     df_batch = triage(df_full, limit)
 
     # ── 3. Optimize & Evaluate ───────────────────
-    logger.info("-" * 60)
+    logger.info("─" * 60)
     logger.info(f"STEP 3/4  Optimize & Evaluate - processing {limit} deals via LLM")
-    logger.info("-" * 60)
+    logger.info("─" * 60)
     results = []
     stats = {'pass': 0, 'marginal': 0, 'fail': 0, 'error': 0}
 
@@ -155,7 +155,7 @@ def run_pipeline(
                 'original_desc':    deal.get('description'),
                 'improved_title':   optimized.get('improved_title'),
                 'improved_desc':    optimized.get('improved_description'),
-                'improved_options': optimized.get('improved_option_names'),
+                'improved_options': ', '.join(optimized.get('improved_option_names') or []) or optimized.get('improved_option_names', ''),
                 'reasoning':        optimized.get('reasoning'),
                 'verdict':          verdict,
                 'composite_orig':   evaluation['composite']['original'],

@@ -132,17 +132,17 @@ results/latest_results.json + .csv   (full audit trail per deal)
 | Metric | Result |
 |---|---|
 | Verdicts | 10/10 PASS |
-| Mean composite score delta | **+36.4 pts** |
-| Mean LLM judge score delta | **+37.9 pts** |
+| Mean composite score delta | **+24.6 pts** |
+| Mean LLM judge score delta | **+37.2 pts** |
 | All guardrails passed | ✓ |
 
-Sample result — Deal #1 (Home Services, Birmingham, CVR: 0.35%):
+Sample result — Deal #1 (Food & Drink, Barcelona, CVR: 0.97%):
 
 | | Before | After |
 |---|---|---|
-| **Title** | Amazing Home Service at Spotless Care | Deep Home Cleaning for Up to 5 Rooms at Spotless Care |
-| **Score** | 21/100 | 61/100 |
-| **LLM Judge** | 30/100 | 85/100 |
+| **Title** | Savor Delicious Flavors at Basil Smokehouse | Basil Smokehouse Dining Experience: $35 for 3-Course Meal |
+| **Score** | 12/100 | 37/100 |
+| **LLM Judge** | 44/100 | 86/100 |
 
 ### Source files
 

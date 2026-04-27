@@ -272,16 +272,26 @@ def get_top_bottom_performers(df: pd.DataFrame, n: int = 20) -> dict:
     return comparison
 
 
-def run_full_analysis(filepath: str = "data/deals.csv", save_dir: str = "docs") -> dict:
+def run_full_analysis(filepath: str = "data/deals.csv", save_dir: str = "docs", df: pd.DataFrame = None) -> dict:
     """
     Master analysis function. Runs everything and saves a JSON findings report.
-    """
-    logger.info("Loading data...")
-    df = pd.read_csv(filepath)
-    logger.info(f"  -> {len(df)} deals across {df['category'].nunique()} categories")
 
-    logger.info("Engineering NLP features (readability + sentiment + patterns)...")
-    df = engineer_features(df)
+    Parameters
+    ----------
+    filepath : path to CSV, used only when *df* is not provided.
+    save_dir : directory to write analysis_findings.json into.
+    df       : optional pre-loaded and pre-engineered DataFrame.  When supplied
+               the CSV is NOT re-read and features are NOT re-computed, avoiding
+               the double-loading that occurs when called from load_and_prepare.
+    """
+    if df is None:
+        logger.info("Loading data...")
+        df = pd.read_csv(filepath)
+        logger.info(f"  -> {len(df)} deals across {df['category'].nunique()} categories")
+        logger.info("Engineering NLP features (readability + sentiment + patterns)...")
+        df = engineer_features(df)
+    else:
+        logger.info(f"  -> Using pre-loaded data: {len(df)} deals across {df['category'].nunique()} categories")
 
     logger.info("Running statistical analysis (Pearson/Spearman correlations + RF)...")
     stats_results = run_statistical_analysis(df)

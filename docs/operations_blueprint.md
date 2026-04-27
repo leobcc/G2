@@ -69,7 +69,7 @@ From statistical analysis of 500 deals (RF CV R² = 0.665):
 | Signal | Direction | Pearson r | Action Encoded |
 |---|---|---|---|
 | structure_section_count | ↑ | +0.563 | Require "What We Offer / Why Grab This / Good to Know" |
-| desc_word_count | ↑ | +0.548 | Target 100–160 words |
+| desc_word_count | ↑ | +0.548 | Target 150–250 words |
 | specificity_count | ↑ | +0.500 | Inject concrete numbers, durations, credentials |
 | image_quality_score | ↑ | +0.458 | Flag low-image deals for photographer dispatch |
 | title_length | ↑ | +0.356 | Target 50–80 chars with service + hook |
